@@ -1,10 +1,7 @@
 from django.urls import path
-from . import views
-
+from .views import order_view,Fiter_order_view,index
 
 urlpatterns = [
-    path('orders/', views.order_view, name='api_order_response'),
-    
-    path('products/', views.product_info_api, name='product_info_api'),
-    # Add more URL patterns as needed
+    path('Orders/', order_view, name='order_view'),
+    path('Fiter_Orders/', Fiter_order_view, name='Fiter_order_view'),\
 ]
