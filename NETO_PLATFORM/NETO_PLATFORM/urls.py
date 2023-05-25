@@ -20,5 +20,5 @@ api_prifix = 'api/v1/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(api_prifix, include('Dashboard.urls'))
+    path(api_prifix, include('NETTTOOO.urls'))
 ]

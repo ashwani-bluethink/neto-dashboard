@@ -38,16 +38,25 @@ def api_order_response(dict_filter, List_of_OutputSelector=None, new_headers=Non
 
 
 
+from django.core.paginator import Paginator
+
 def order_view(request):
     dict_filter = {
         'OrderStatus': ['Pending Pickup', 'Pending Dispatch', 'On Hold', 'Backorder Approved', 'Pack', 'New Backorder', 'New', 'Pick', 'Uncommitted']
     }
     output_selector = ['OrderID', 'OrderStatus', 'ShippingOption', 'SalesChannel', 'OrderLine', 'DatePlaced', 'OrderLine.ItemNotes', 'InternalOrderNotes', 'Supplier', 'CustomerRef3', 'CustomerRef4', 'CustomerRef5', 'CustomerRef6', 'CustomerRef7']
+    
     order_data = api_order_response(dict_filter, output_selector)
     order_data = order_data['Order']
     total_orders = len(order_data)
-    # return JsonResponse({"order_data":order_data})
-    return render(request, 'index.html',{'total_orders':total_orders,"order_data":order_data})
+
+    paginator = Paginator(order_data, 10) # Show 10 orders per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'index.html', {'total_orders':total_orders, 'page_obj': page_obj})
+
 
 
 
